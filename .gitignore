@@ -1,0 +1,47 @@
+# ==========================================
+# SEGREDOS — NUNCA commitar estes arquivos
+# ==========================================
+.env
+*.env
+*.key
+*.pem
+*secret*
+
+# Dados gerados pelo ChromaDB (banco vetorial local)
+chroma/
+chroma_db/
+*.chroma
+
+# Cache e dados temporários
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Ambientes virtuais Python
+venv/
+.venv/
+env/
+ENV/
+
+# Arquivos temporários de ingestão
+temp_*
+
+# Volumes e dados do Docker (gerados localmente)
+ollama_data/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+logs/

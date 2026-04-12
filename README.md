@@ -1,6 +1,5 @@
 # 🧠 RAG-Docker MCP: Cérebro de IA Local para TOTVS Protheus (AdvPL)
 
-![Status](https://img.shields.io/badge/Status-Stable-success) ![Stack](https://img.shields.io/badge/Stack-Python_|_Docker_|_ChromaDB-blue) ![Integração](https://img.shields.io/badge/AI-Claude_|_Windsurf-orange)
 
 ## 🎯 O Desafio
 Como fazer uma IA avançada como o Claude (Anthropic) entender mais de 4.000 arquivos de código-fonte de um ERP (TOTVS Protheus / AdvPL), com regras de negócio altamente customizadas, **sem expor o código da empresa na internet** e **sem pagar rios de dinheiro em chamadas de API**?

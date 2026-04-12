@@ -1,0 +1,31 @@
+services:
+  app:
+    build: .
+    container_name: rag_app
+    ports:
+      - "3333:3333"
+    depends_on:
+      - redis
+      - ollama
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+
+  redis:
+    image: redis:7
+    container_name: rag_redis
+    ports:
+      - "6379:6379"
+
+  ollama:
+    image: ollama/ollama
+    container_name: rag_ollama
+    ports:
+      - "11434:11434"
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
+    volumes:
+      - ollama_data:/root/.ollama
+
+volumes:
+  ollama_data:
