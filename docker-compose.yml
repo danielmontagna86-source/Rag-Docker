@@ -1,31 +1,30 @@
+version: '3.8'
+
 services:
-  app:
+  rag_app:
     build: .
     container_name: rag_app
+    restart: unless-stopped
     ports:
       - "3333:3333"
-    depends_on:
-      - redis
-      - ollama
     environment:
-      - GEMINI_API_KEY=${GEMINI_API_KEY}
-
-  redis:
-    image: redis:7
-    container_name: rag_redis
-    ports:
-      - "6379:6379"
-
-  ollama:
-    image: ollama/ollama
-    container_name: rag_ollama
-    ports:
-      - "11434:11434"
-    dns:
-      - 8.8.8.8
-      - 1.1.1.1
+      # URL para o seu PC hoje (Uberlândia)
+      - OLLAMA_URL=http://host.docker.internal:11434
+      # URL para outro PC (basta inverter o comentário)
+      # - OLLAMA_URL=http://rag_ollama:11434 
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
-      - ollama_data:/root/.ollama
+      - .:/app
+
+  # Serviço do Ollama (Deixe comentado enquanto usar o Ollama do Windows)
+  # rag_ollama:
+  #   image: ollama/ollama:latest
+  #   container_name: rag_ollama
+  #   ports:
+  #     - "11434:11434"
+  #   volumes:
+  #     - ollama_data:/root/.ollama
 
 volumes:
   ollama_data:

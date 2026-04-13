@@ -1,15 +1,17 @@
 FROM python:3.11-slim
 
-# Dependências de sistema para o modelo local
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    && rm -rf /var/lib/apt/dist/
-
 WORKDIR /app
+
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# Instalamos sentence-transformers para rodar o embedding local
-RUN pip install --no-cache-dir fastapi uvicorn requests chromadb pypdf redis numpy python-multipart mcp sentence-transformers torch
+EXPOSE 3333
 
-CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "3333"]
+# Agora o Uvicorn liga o motor correto (api.py)
+CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "3333"]
