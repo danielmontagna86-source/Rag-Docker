@@ -6,25 +6,26 @@ app = FastAPI(title="Protheus RAG Gateway")
 
 @app.get("/")
 async def root():
-    return {"status": "online", "message": "API RAG Operacional"}
+    return {"status": "online"}
 
 @app.post("/chat")
 async def chat_api(request: Request):
     data = await request.json()
     prompt = data.get("prompt", "")
     
-    contexto = "[CONTEXTO DOS FONTES ADVPL]"
-    prompt_enriquecido = f"Contexto: {contexto}\n\nPergunta: {prompt}"
+    # Contexto "Turbinado" enquanto o ChromaDB não entra em cena
+    contexto = (
+        "Você é um especialista em Protheus e AdvPL. "
+        "A tabela SE1 armazena Contas a Receber. "
+        "DbSelectArea seleciona a tabela de trabalho. "
+        "RecLock inicia o travamento de registro para gravação (Inclusão/Alteração). "
+        "Sempre finalize as operações com MsUnlock()."
+    )
     
-    # Chama o Ollama
+    prompt_enriquecido = f"Instrução: Use o contexto abaixo para responder.\nContexto: {contexto}\n\nPergunta: {prompt}"
+    
     response = call_llm(prompt_enriquecido)
     
-    # RAIO-X SRE: Imprime as primeiras 200 letras no log do Docker para provar que há texto!
     tamanho = len(response)
-    print(f"📦 [API] Retornando {tamanho} caracteres para o cliente.", file=sys.stderr)
-    if tamanho > 0:
-        print(f"📝 [API] Previa do Texto: {response[:200]}...", file=sys.stderr)
-    else:
-        print("⚠️ [API] ALERTA: A resposta do Ollama veio VAZIA!", file=sys.stderr)
-        
+    print(f"📦 [API] Retornando {tamanho} caracteres.", file=sys.stderr)
     return {"response": response}
